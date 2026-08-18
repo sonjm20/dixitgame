@@ -185,6 +185,7 @@ function enterSubmitPhase(clue) {
   resetPhaseVisibility();
   state.clue = clue;
   state.selectedCard = null;
+  state.submittedThisRound = false;
 
   $('clue-banner').classList.remove('hidden');
   $('clue-text').textContent = clue;
@@ -195,6 +196,9 @@ function enterSubmitPhase(clue) {
 
   $('submit-wait-msg').classList.remove('hidden');
   $('submit-progress').textContent = '';
+  $('submitted-cards').innerHTML = '';
+  $('btn-shuffle-cards').classList.add('hidden');
+  $('shuffle-wait-msg').classList.add('hidden');
 
   renderHand('my-hand', !isPrompter, (cardUrl) => {
     if (state.submittedThisRound) return;
@@ -216,6 +220,8 @@ function enterVotePhase(cards) {
   const isPrompter = state.myId === state.prompterId;
   $('vote-wait-msg').classList.toggle('hidden', !isPrompter);
   $('vote-progress').textContent = '';
+  $('btn-reveal-answer').classList.add('hidden');
+  $('reveal-wait-msg').classList.add('hidden');
 
   const grid = $('vote-cards');
   grid.innerHTML = '';
@@ -278,6 +284,14 @@ function enterRevealPhase(data) {
     $('reveal-wait-msg').classList.toggle('hidden', isHost);
   }
 }
+
+$('btn-shuffle-cards').addEventListener('click', () => {
+  socket.emit('shuffleCards');
+});
+
+$('btn-reveal-answer').addEventListener('click', () => {
+  socket.emit('revealAnswer');
+});
 
 $('btn-next-round').addEventListener('click', () => {
   socket.emit('nextRound');
@@ -368,6 +382,24 @@ socket.on('submitPhase', ({ clue, prompterId }) => {
 
 socket.on('submitProgress', ({ submittedCount, totalNeeded }) => {
   $('submit-progress').textContent = `제출 완료: ${submittedCount} / ${totalNeeded}`;
+
+  // 제출된 카드를 뒷면으로 표시
+  const grid = $('submitted-cards');
+  if (submittedCount > grid.children.length) {
+    const card = document.createElement('div');
+    card.className = 'card disabled';
+    const cardBack = document.createElement('div');
+    cardBack.className = 'card-back-face';
+    cardBack.innerHTML = '<span class="card-back-mark">?</span>';
+    card.appendChild(cardBack);
+    grid.appendChild(card);
+  }
+
+  // 모든 카드가 제출되면 버튼 활성화 (출제자만)
+  const isPrompter = state.myId === state.prompterId;
+  if (isPrompter && submittedCount === totalNeeded) {
+    $('btn-shuffle-cards').classList.remove('hidden');
+  }
 });
 
 socket.on('votePhase', ({ cards }) => {
@@ -376,6 +408,12 @@ socket.on('votePhase', ({ cards }) => {
 
 socket.on('voteProgress', ({ votedCount, totalNeeded }) => {
   $('vote-progress').textContent = `투표 완료: ${votedCount} / ${totalNeeded}`;
+
+  // 모든 투표가 완료되면 출제자에게 정답 공개 버튼 활성화
+  const isPrompter = state.myId === state.prompterId;
+  if (isPrompter && votedCount === totalNeeded) {
+    $('btn-reveal-answer').classList.remove('hidden');
+  }
 });
 
 socket.on('roundResult', (data) => {
