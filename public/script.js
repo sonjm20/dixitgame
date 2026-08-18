@@ -273,13 +273,14 @@ function enterRevealPhase(data) {
 
   $('phase-reveal').classList.remove('hidden');
 
-  // 내가 고른카드 섹션 표시 (출제자 제외)
+  // 내가 고른카드 + 정답 카드 비교 섹션 표시 (출제자 제외)
   const isPrompter = state.myId === state.prompterId;
   if (!isPrompter && state.votedCardId) {
-    $('my-vote-result-section').classList.remove('hidden');
+    $('compare-cards-section').classList.remove('hidden');
     $('my-voted-card-result-img').src = state.votedCardId;
+    $('correct-card-result-img').src = data.correctCardId;
   } else {
-    $('my-vote-result-section').classList.add('hidden');
+    $('compare-cards-section').classList.add('hidden');
   }
 
   // 정답자 목록 표시
