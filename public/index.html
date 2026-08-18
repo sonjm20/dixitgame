@@ -46,23 +46,34 @@
     </header>
 
     <div id="clue-banner" class="clue-banner hidden">
-      제시어: <strong id="clue-text"></strong>
+      <div id="prompter-card-back" class="prompter-card-back hidden">
+        <div class="card-back-face">
+          <span class="card-back-mark">?</span>
+        </div>
+        <span class="prompter-card-label">출제자가 낸 카드 (뒷면)</span>
+      </div>
+      <div class="clue-banner-text">
+        제시어: <strong id="clue-text"></strong>
+      </div>
     </div>
 
     <!-- 출제자 턴 UI -->
     <div id="phase-clue" class="phase hidden">
       <h3 id="clue-phase-title"></h3>
       <div id="clue-input-area" class="hidden">
-        <p>패에서 카드를 한 장 고르고 제시어를 입력하세요.</p>
+        <p>1. 손패 6장 중 이번 라운드에 낼 카드를 1장 고르세요.</p>
+        <p>2. 그 카드를 잘 나타내는 제시어(단어/문장)를 입력하세요.</p>
+        <p>3. 제출하면 카드는 뒤집힌 채로 방에 공개되고, 다른 참여자에게는 카드 뒷면과 제시어만 보입니다.</p>
         <input id="clue-input" type="text" placeholder="제시어를 입력하세요" maxlength="50" />
         <button id="btn-submit-clue" disabled>제시어와 카드 제출</button>
       </div>
-      <p id="clue-wait-msg" class="hint hidden">출제자가 제시어를 고르는 중입니다...</p>
+      <p id="clue-wait-msg" class="hint hidden">출제자가 손패에서 카드를 고르고 제시어를 입력하는 중입니다...</p>
     </div>
 
     <!-- 카드 제출 UI -->
     <div id="phase-submit" class="phase hidden">
-      <h3>어울리는 카드를 골라 제출하세요</h3>
+      <h3>제시어와 가장 잘 어울리는 카드를 손패에서 1장 골라 제출하세요</h3>
+      <p class="hint">제출한 카드는 출제자의 카드와 함께 뒤집힌 채로 섞여 투표 단계에서 공개됩니다.</p>
       <p id="submit-progress" class="hint"></p>
       <p id="submit-wait-msg" class="hint hidden">다른 플레이어들이 카드를 제출하는 중입니다...</p>
     </div>

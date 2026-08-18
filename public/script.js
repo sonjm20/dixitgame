@@ -168,6 +168,7 @@ function enterSubmitPhase(clue) {
 
   $('clue-banner').classList.remove('hidden');
   $('clue-text').textContent = clue;
+  $('prompter-card-back').classList.remove('hidden');
 
   $('phase-submit').classList.remove('hidden');
   const isPrompter = state.myId === state.prompterId;
@@ -189,6 +190,7 @@ function enterVotePhase(cards) {
   resetPhaseVisibility();
   $('clue-banner').classList.remove('hidden');
   $('clue-text').textContent = state.clue;
+  $('prompter-card-back').classList.add('hidden');
 
   $('phase-vote').classList.remove('hidden');
   const isPrompter = state.myId === state.prompterId;
@@ -226,6 +228,7 @@ function enterRevealPhase(data) {
   resetPhaseVisibility();
   $('clue-banner').classList.remove('hidden');
   $('clue-text').textContent = state.clue;
+  $('prompter-card-back').classList.add('hidden');
 
   $('phase-reveal').classList.remove('hidden');
 
