@@ -305,11 +305,6 @@ io.on('connection', (socket) => {
       votedCount: room.votes.size,
       totalNeeded: room.turnOrder.length - 1,
     });
-
-    // ---------- 7. 점수 계산 ----------
-    if (room.allNonPrompterVoted()) {
-      revealRound(room);
-    }
   });
 
   // ---------- 7-2. 정답 공개 (출제자 전용) ----------
