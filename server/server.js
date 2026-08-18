@@ -95,6 +95,7 @@ function revealRound(room) {
     }),
     revealedCards,
     players: room.getPublicPlayers(),
+    roundScores,
     gameOver,
   });
 }

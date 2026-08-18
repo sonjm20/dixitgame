@@ -95,6 +95,15 @@
       <h3>출제자의 진짜 카드에 투표하세요</h3>
       <p id="vote-progress" class="hint"></p>
       <p id="vote-wait-msg" class="hint hidden">출제자는 투표할 수 없습니다. 결과를 기다려주세요...</p>
+
+      <!-- 내가 고른카드 섹션 -->
+      <div id="my-vote-section" class="my-choice-section hidden">
+        <div class="my-choice-label">✓ 내가 고른 카드</div>
+        <div id="my-voted-card" class="my-choice-card">
+          <img id="my-voted-card-img" src="" alt="my vote" />
+        </div>
+      </div>
+
       <div id="vote-cards" class="card-grid"></div>
       <button id="btn-reveal-answer" class="hidden" style="margin-top: 20px;">정답 공개</button>
       <p id="reveal-wait-msg" class="hint hidden" style="margin-top: 10px;">출제자가 정답을 공개하기를 기다리는 중입니다...</p>
@@ -103,6 +112,27 @@
     <!-- 결과 공개 UI -->
     <div id="phase-reveal" class="phase hidden">
       <h3>라운드 결과</h3>
+
+      <!-- 내가 고른카드 섹션 (결과 화면) -->
+      <div id="my-vote-result-section" class="my-choice-section hidden">
+        <div class="my-choice-label">✓ 내가 고른 카드</div>
+        <div id="my-voted-card-result" class="my-choice-card">
+          <img id="my-voted-card-result-img" src="" alt="my vote" />
+        </div>
+      </div>
+
+      <!-- 라운드 요약 섹션 -->
+      <div id="round-summary" class="round-summary">
+        <div id="correct-voters-section" class="summary-section">
+          <div class="summary-label">정답자</div>
+          <div id="correct-voters-list" class="voters-list"></div>
+        </div>
+        <div id="round-scores-section" class="summary-section">
+          <div class="summary-label">이번 라운드 점수</div>
+          <div id="round-scores-list" class="scores-list"></div>
+        </div>
+      </div>
+
       <div id="reveal-cards" class="card-grid"></div>
       <button id="btn-next-round" class="hidden">다음 라운드</button>
       <p id="reveal-wait-msg" class="hint hidden">방장이 다음 라운드를 시작하기를 기다리는 중...</p>

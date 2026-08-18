@@ -12,6 +12,7 @@ const state = {
   selectedCard: null, // 클릭해서 고른 카드(제시어 제출용 / 카드 제출용)
   submittedThisRound: false,
   votedThisRound: false,
+  votedCardId: null, // 투표한 카드 URL
   lobbyState: 'waiting', // waiting | game_ready
 };
 
@@ -145,6 +146,7 @@ function enterCluePhase(prompterName) {
   state.selectedCard = null;
   state.submittedThisRound = false;
   state.votedThisRound = false;
+  state.votedCardId = null;
   $('btn-next-round').classList.add('hidden');
   $('reveal-wait-msg').classList.add('hidden');
 
@@ -223,6 +225,14 @@ function enterVotePhase(cards) {
   $('btn-reveal-answer').classList.add('hidden');
   $('reveal-wait-msg').classList.add('hidden');
 
+  // 내가 고른카드 섹션 초기화
+  if (state.votedCardId) {
+    $('my-vote-section').classList.remove('hidden');
+    $('my-voted-card-img').src = state.votedCardId;
+  } else {
+    $('my-vote-section').classList.add('hidden');
+  }
+
   const grid = $('vote-cards');
   grid.innerHTML = '';
   cards.forEach(({ cardId }) => {
@@ -238,9 +248,14 @@ function enterVotePhase(cards) {
 
     if (!isPrompter && !state.votedThisRound && cardId !== state.selectedCard) {
       card.addEventListener('click', () => {
+        state.votedCardId = cardId;
         state.votedThisRound = true;
         socket.emit('submitVote', { cardId });
         Array.from(grid.children).forEach((c) => c.classList.add('disabled'));
+
+        // 내가 고른카드 섹션 표시
+        $('my-vote-section').classList.remove('hidden');
+        $('my-voted-card-img').src = cardId;
       });
     }
     grid.appendChild(card);
@@ -258,6 +273,48 @@ function enterRevealPhase(data) {
 
   $('phase-reveal').classList.remove('hidden');
 
+  // 내가 고른카드 섹션 표시 (출제자 제외)
+  const isPrompter = state.myId === state.prompterId;
+  if (!isPrompter && state.votedCardId) {
+    $('my-vote-result-section').classList.remove('hidden');
+    $('my-voted-card-result-img').src = state.votedCardId;
+  } else {
+    $('my-vote-result-section').classList.add('hidden');
+  }
+
+  // 정답자 목록 표시
+  const correctVotersList = $('correct-voters-list');
+  correctVotersList.innerHTML = '';
+  if (data.correctVoters && data.correctVoters.length > 0) {
+    data.correctVoters.forEach((name) => {
+      const item = document.createElement('div');
+      item.className = 'voter-item';
+      item.textContent = '✓ ' + name;
+      correctVotersList.appendChild(item);
+    });
+  } else {
+    const item = document.createElement('div');
+    item.className = 'voter-item';
+    item.textContent = '정답자 없음';
+    correctVotersList.appendChild(item);
+  }
+
+  // 참여자별 이번 라운드 점수 표시
+  const scoresList = $('round-scores-list');
+  scoresList.innerHTML = '';
+  const playerIds = Array.from(state.players.map((p) => p.id));
+  playerIds.forEach((playerId) => {
+    const player = state.players.find((p) => p.id === playerId);
+    const roundPoints = data.roundScores[playerId] || 0;
+    if (player) {
+      const item = document.createElement('div');
+      item.className = 'score-item';
+      item.innerHTML = `<span class="score-item-name">${player.nickname}</span><span class="score-item-points">+${roundPoints}점</span>`;
+      scoresList.appendChild(item);
+    }
+  });
+
+  // 카드 그리드 표시
   const grid = $('reveal-cards');
   grid.innerHTML = '';
   data.revealedCards.forEach((c) => {
