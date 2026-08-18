@@ -334,6 +334,25 @@ socket.on('gameStarted', () => {
 
 socket.on('yourHand', ({ hand }) => {
   state.hand = hand;
+  // 손패를 받은 후 현재 게임 상태에 맞춰 렌더링 업데이트
+  if ($('phase-clue') && !$('phase-clue').classList.contains('hidden')) {
+    const isPrompter = state.myId === state.prompterId;
+    const onSelectCard = (cardUrl) => {
+      state.selectedCard = cardUrl;
+      renderHand('my-hand', true, onSelectCard);
+      updateClueSubmitButton();
+    };
+    renderHand('my-hand', isPrompter, onSelectCard);
+  } else if ($('phase-submit') && !$('phase-submit').classList.contains('hidden')) {
+    const isPrompter = state.myId === state.prompterId;
+    renderHand('my-hand', !isPrompter, (cardUrl) => {
+      if (state.submittedThisRound) return;
+      state.selectedCard = cardUrl;
+      state.submittedThisRound = true;
+      socket.emit('submitCard', { cardId: cardUrl });
+      renderHand('my-hand', false, () => {});
+    });
+  }
 });
 
 socket.on('cluePhase', ({ prompterId, prompterName }) => {
