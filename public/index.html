@@ -85,6 +85,9 @@
       <p class="hint">제출한 카드는 출제자의 카드와 함께 뒤집힌 채로 섞여 투표 단계에서 공개됩니다.</p>
       <p id="submit-progress" class="hint"></p>
       <p id="submit-wait-msg" class="hint hidden">다른 플레이어들이 카드를 제출하는 중입니다...</p>
+      <div id="submitted-cards" class="card-grid" style="margin-top: 20px;"></div>
+      <button id="btn-shuffle-cards" class="hidden" style="margin-top: 20px;">카드 섞어서 공개하기</button>
+      <p id="shuffle-wait-msg" class="hint hidden" style="margin-top: 10px;">출제자가 카드를 섞고 공개하기를 기다리는 중입니다...</p>
     </div>
 
     <!-- 투표 UI -->
@@ -93,6 +96,8 @@
       <p id="vote-progress" class="hint"></p>
       <p id="vote-wait-msg" class="hint hidden">출제자는 투표할 수 없습니다. 결과를 기다려주세요...</p>
       <div id="vote-cards" class="card-grid"></div>
+      <button id="btn-reveal-answer" class="hidden" style="margin-top: 20px;">정답 공개</button>
+      <p id="reveal-wait-msg" class="hint hidden" style="margin-top: 10px;">출제자가 정답을 공개하기를 기다리는 중입니다...</p>
     </div>
 
     <!-- 결과 공개 UI -->

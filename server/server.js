@@ -257,10 +257,23 @@ io.on('connection', (socket) => {
     });
 
     if (room.allNonPrompterSubmitted()) {
-      room.state = 'vote';
-      const cards = shuffleForVote(room);
-      io.to(room.code).emit('votePhase', { cards });
+      room.state = 'shuffle';
     }
+  });
+
+  // ---------- 5-2. 카드 섞기 (출제자 전용) ----------
+  socket.on('shuffleCards', () => {
+    const room = roomManager.findRoomByPlayer(socket.id);
+    if (!room || room.state !== 'shuffle') return;
+
+    if (room.prompterId !== socket.id) {
+      socket.emit('errorMessage', { message: '출제자만 카드를 섞을 수 있습니다.' });
+      return;
+    }
+
+    room.state = 'vote';
+    const cards = shuffleForVote(room);
+    io.to(room.code).emit('votePhase', { cards });
   });
 
   // ---------- 6. 투표 ----------
@@ -297,6 +310,19 @@ io.on('connection', (socket) => {
     if (room.allNonPrompterVoted()) {
       revealRound(room);
     }
+  });
+
+  // ---------- 7-2. 정답 공개 (출제자 전용) ----------
+  socket.on('revealAnswer', () => {
+    const room = roomManager.findRoomByPlayer(socket.id);
+    if (!room || room.state !== 'vote') return;
+
+    if (room.prompterId !== socket.id) {
+      socket.emit('errorMessage', { message: '출제자만 정답을 공개할 수 있습니다.' });
+      return;
+    }
+
+    revealRound(room);
   });
 
   // ---------- 8. 턴 넘김 ----------
