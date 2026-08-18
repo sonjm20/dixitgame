@@ -305,11 +305,19 @@ io.on('connection', (socket) => {
       votedCount: room.votes.size,
       totalNeeded: room.turnOrder.length - 1,
     });
+  });
 
-    // ---------- 7. 점수 계산 ----------
-    if (room.allNonPrompterVoted()) {
-      revealRound(room);
+  // ---------- 7-2. 정답 공개 (출제자 전용) ----------
+  socket.on('revealAnswer', () => {
+    const room = roomManager.findRoomByPlayer(socket.id);
+    if (!room || room.state !== 'vote') return;
+
+    if (room.prompterId !== socket.id) {
+      socket.emit('errorMessage', { message: '출제자만 정답을 공개할 수 있습니다.' });
+      return;
     }
+
+    revealRound(room);
   });
 
   // ---------- 7-2. 정답 공개 (출제자 전용) ----------
