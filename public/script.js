@@ -258,6 +258,39 @@ function enterRevealPhase(data) {
 
   $('phase-reveal').classList.remove('hidden');
 
+  // 정답자 목록 표시
+  const correctVotersList = $('correct-voters-list');
+  correctVotersList.innerHTML = '';
+  if (data.correctVoters && data.correctVoters.length > 0) {
+    data.correctVoters.forEach((name) => {
+      const item = document.createElement('div');
+      item.className = 'voter-item';
+      item.textContent = '✓ ' + name;
+      correctVotersList.appendChild(item);
+    });
+  } else {
+    const item = document.createElement('div');
+    item.className = 'voter-item';
+    item.textContent = '정답자 없음';
+    correctVotersList.appendChild(item);
+  }
+
+  // 참여자별 이번 라운드 점수 표시
+  const scoresList = $('round-scores-list');
+  scoresList.innerHTML = '';
+  const playerIds = Array.from(state.players.map((p) => p.id));
+  playerIds.forEach((playerId) => {
+    const player = state.players.find((p) => p.id === playerId);
+    const roundPoints = data.roundScores[playerId] || 0;
+    if (player) {
+      const item = document.createElement('div');
+      item.className = 'score-item';
+      item.innerHTML = `<span class="score-item-name">${player.nickname}</span><span class="score-item-points">+${roundPoints}점</span>`;
+      scoresList.appendChild(item);
+    }
+  });
+
+  // 카드 그리드 표시
   const grid = $('reveal-cards');
   grid.innerHTML = '';
   data.revealedCards.forEach((c) => {

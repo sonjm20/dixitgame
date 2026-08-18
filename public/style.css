@@ -280,3 +280,65 @@ button:hover:not(:disabled) {
   border-top: 1px solid #4a2e52;
   padding-top: 16px;
 }
+
+.round-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+  background: #34213a;
+  padding: 16px;
+  border-radius: 12px;
+  border: 2px solid #5b3a66;
+}
+
+.summary-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.summary-label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #f4c95d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.voters-list,
+.scores-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.voter-item,
+.score-item {
+  background: #4a2e52;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  border-left: 3px solid #f4c95d;
+}
+
+.voter-item {
+  color: #a8f784;
+  font-weight: bold;
+}
+
+.score-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.score-item-name {
+  flex: 1;
+}
+
+.score-item-points {
+  font-weight: bold;
+  color: #f4c95d;
+  font-size: 16px;
+}

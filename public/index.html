@@ -103,6 +103,19 @@
     <!-- 결과 공개 UI -->
     <div id="phase-reveal" class="phase hidden">
       <h3>라운드 결과</h3>
+
+      <!-- 라운드 요약 섹션 -->
+      <div id="round-summary" class="round-summary">
+        <div id="correct-voters-section" class="summary-section">
+          <div class="summary-label">정답자</div>
+          <div id="correct-voters-list" class="voters-list"></div>
+        </div>
+        <div id="round-scores-section" class="summary-section">
+          <div class="summary-label">이번 라운드 점수</div>
+          <div id="round-scores-list" class="scores-list"></div>
+        </div>
+      </div>
+
       <div id="reveal-cards" class="card-grid"></div>
       <button id="btn-next-round" class="hidden">다음 라운드</button>
       <p id="reveal-wait-msg" class="hint hidden">방장이 다음 라운드를 시작하기를 기다리는 중...</p>
