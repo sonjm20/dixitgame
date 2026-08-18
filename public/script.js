@@ -334,7 +334,6 @@ socket.on('gameStarted', () => {
 
 socket.on('yourHand', ({ hand }) => {
   state.hand = hand;
-  renderHand('my-hand', false, () => {});
 });
 
 socket.on('cluePhase', ({ prompterId, prompterName }) => {
