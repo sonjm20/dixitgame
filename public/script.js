@@ -12,6 +12,7 @@ const state = {
   selectedCard: null, // 클릭해서 고른 카드(제시어 제출용 / 카드 제출용)
   submittedThisRound: false,
   votedThisRound: false,
+  lobbyState: 'waiting', // waiting | game_ready
 };
 
 // ---------- DOM 헬퍼 ----------
@@ -54,8 +55,20 @@ $('btn-back-to-landing').addEventListener('click', () => {
 });
 
 // ---------- 화면 2: 대기실 ----------
+$('btn-home-lobby').addEventListener('click', () => {
+  window.location.reload();
+});
+
 $('btn-start-game').addEventListener('click', () => {
   socket.emit('startGame');
+});
+
+$('btn-deal-cards').addEventListener('click', () => {
+  socket.emit('dealCards');
+});
+
+$('btn-home-game').addEventListener('click', () => {
+  window.location.reload();
 });
 
 function renderLobby() {
@@ -71,11 +84,17 @@ function renderLobby() {
 
   const isHost = state.myId === state.hostId;
   const canStart = isHost && state.players.length >= 3;
-  $('btn-start-game').classList.toggle('hidden', !isHost);
-  $('btn-start-game').disabled = !canStart;
-  $('btn-start-game').textContent = '카드 나눠갖기';
+  const isGameReady = state.lobbyState === 'game_ready';
 
-  if (isHost && state.players.length < 3) {
+  $('btn-start-game').classList.toggle('hidden', !isHost || isGameReady);
+  $('btn-start-game').disabled = !canStart;
+
+  $('btn-deal-cards').classList.toggle('hidden', !isHost || !isGameReady);
+  $('btn-deal-cards').disabled = false;
+
+  if (isGameReady) {
+    $('lobby-hint').textContent = isHost ? '모든 플레이어가 준비됐습니다. "카드 나눠갖기"를 눌러 게임을 시작하세요.' : '방장이 카드를 나눠주기를 기다리는 중입니다...';
+  } else if (isHost && state.players.length < 3) {
     $('lobby-hint').textContent = `게임을 시작하려면 최소 3명이 필요합니다. (현재 ${state.players.length}명)`;
   } else if (!isHost) {
     $('lobby-hint').textContent = '방장이 게임을 시작하기를 기다리는 중입니다...';
@@ -295,10 +314,11 @@ socket.on('roomJoined', ({ code }) => {
   showScreen('lobby');
 });
 
-socket.on('roomUpdate', ({ code, hostId, players, state: roomState }) => {
+socket.on('roomUpdate', ({ code, hostId, players, state: roomState, lobbyState: incomingLobbyState }) => {
   state.roomCode = code;
   state.hostId = hostId;
   state.players = players;
+  if (incomingLobbyState) state.lobbyState = incomingLobbyState;
 
   if (roomState === 'lobby') {
     renderLobby();
