@@ -51,6 +51,7 @@
       <button id="btn-home-game" class="btn-home">🏠 처음으로</button>
     </div>
     <header class="game-header">
+      <div class="scoreboard-header">현재 누적점수</div>
       <div id="scoreboard" class="scoreboard"></div>
     </header>
 
@@ -92,7 +93,7 @@
 
     <!-- 투표 UI -->
     <div id="phase-vote" class="phase hidden">
-      <h3>출제자의 진짜 카드에 투표하세요</h3>
+      <h3 id="vote-phase-title"></h3>
       <p id="vote-progress" class="hint"></p>
       <p id="vote-wait-msg" class="hint hidden">출제자는 투표할 수 없습니다. 결과를 기다려주세요...</p>
 
@@ -113,11 +114,19 @@
     <div id="phase-reveal" class="phase hidden">
       <h3>라운드 결과</h3>
 
-      <!-- 내가 고른카드 섹션 (결과 화면) -->
-      <div id="my-vote-result-section" class="my-choice-section hidden">
-        <div class="my-choice-label">✓ 내가 고른 카드</div>
-        <div id="my-voted-card-result" class="my-choice-card">
-          <img id="my-voted-card-result-img" src="" alt="my vote" />
+      <!-- 내가 고른카드 + 정답 카드 비교 섹션 (결과 화면) -->
+      <div id="compare-cards-section" class="compare-cards-section hidden">
+        <div class="compare-card-item">
+          <div class="compare-card-label">✓ 내가 고른 카드</div>
+          <div id="my-voted-card-result" class="compare-card">
+            <img id="my-voted-card-result-img" src="" alt="my vote" />
+          </div>
+        </div>
+        <div class="compare-card-item">
+          <div class="compare-card-label">★ 정답 카드</div>
+          <div id="correct-card-result" class="compare-card">
+            <img id="correct-card-result-img" src="" alt="correct answer" />
+          </div>
         </div>
       </div>
 

@@ -151,13 +151,22 @@ button:hover:not(:disabled) {
 }
 
 .game-header {
+  margin-bottom: 20px;
+}
+
+.scoreboard-header {
+  font-size: 14px;
+  font-weight: bold;
+  color: #c9b8cf;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   margin-bottom: 12px;
 }
 
 .scoreboard {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
 }
 
 .score-chip {
@@ -372,6 +381,65 @@ button:hover:not(:disabled) {
 }
 
 .my-choice-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.compare-cards-section {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #34213a;
+  border-radius: 12px;
+  border: 2px solid #5b3a66;
+}
+
+.compare-card-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.compare-card-label {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.compare-card-item:first-child .compare-card-label {
+  color: #a8f784;
+}
+
+.compare-card-item:last-child .compare-card-label {
+  color: #f4c95d;
+}
+
+.compare-card {
+  width: 120px;
+  aspect-ratio: 3 / 4;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 3px solid;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
+}
+
+.compare-card-item:first-child .compare-card {
+  border-color: #a8f784;
+  box-shadow: 0 0 16px rgba(168, 247, 132, 0.4);
+}
+
+.compare-card-item:last-child .compare-card {
+  border-color: #f4c95d;
+  box-shadow: 0 0 16px rgba(244, 201, 93, 0.4);
+}
+
+.compare-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;

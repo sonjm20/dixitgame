@@ -220,6 +220,11 @@ function enterVotePhase(cards) {
 
   $('phase-vote').classList.remove('hidden');
   const isPrompter = state.myId === state.prompterId;
+
+  // 투표 단계 제목 설정
+  const prompter = state.players.find((p) => p.id === state.prompterId);
+  const prompterName = prompter ? prompter.nickname : '출제자';
+  $('vote-phase-title').textContent = `어느 카드가 [${prompterName}]님의 카드일까요? 정답을 선택하세요.`;
   $('vote-wait-msg').classList.toggle('hidden', !isPrompter);
   $('vote-progress').textContent = '';
   $('btn-reveal-answer').classList.add('hidden');
@@ -273,13 +278,14 @@ function enterRevealPhase(data) {
 
   $('phase-reveal').classList.remove('hidden');
 
-  // 내가 고른카드 섹션 표시 (출제자 제외)
+  // 내가 고른카드 + 정답 카드 비교 섹션 표시 (출제자 제외)
   const isPrompter = state.myId === state.prompterId;
   if (!isPrompter && state.votedCardId) {
-    $('my-vote-result-section').classList.remove('hidden');
+    $('compare-cards-section').classList.remove('hidden');
     $('my-voted-card-result-img').src = state.votedCardId;
+    $('correct-card-result-img').src = data.correctCardId;
   } else {
-    $('my-vote-result-section').classList.add('hidden');
+    $('compare-cards-section').classList.add('hidden');
   }
 
   // 정답자 목록 표시
