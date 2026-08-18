@@ -29,6 +29,7 @@ class Room {
     this.imagePool = imagePool; // 서버 전체 카드 이미지 목록(참조 공유, 방마다 별도 셔플)
 
     this.state = 'lobby'; // lobby | clue | submit | vote | reveal | ended
+    this.lobbyState = 'waiting'; // waiting | game_ready
     this.deck = [];
     this.discard = [];
     this.turnOrder = []; // 출제자 순서 (플레이어 socketId 배열)

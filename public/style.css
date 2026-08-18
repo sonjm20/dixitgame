@@ -76,6 +76,42 @@ button:hover:not(:disabled) {
   font-size: 16px;
 }
 
+.screen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.screen-header h2 {
+  margin: 0;
+}
+
+.btn-home {
+  background: #6b4b74;
+  color: #f2ece7;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #8b6b94;
+}
+
+.btn-home:hover:not(:disabled) {
+  background: #7b5b84;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.button-group button {
+  flex: 1;
+  min-width: 150px;
+}
+
 .room-code {
   font-size: 28px;
   font-weight: bold;
@@ -219,6 +255,9 @@ button:hover:not(:disabled) {
 
 .card.selected {
   border-color: #f4c95d;
+  border-width: 4px;
+  box-shadow: 0 0 12px rgba(244, 201, 93, 0.6), inset 0 0 12px rgba(244, 201, 93, 0.2);
+  transform: scale(1.02);
 }
 
 .card.disabled {

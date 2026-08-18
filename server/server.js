@@ -31,6 +31,7 @@ function broadcastRoomUpdate(room) {
     hostId: room.hostId,
     players: room.getPublicPlayers(),
     state: room.state,
+    lobbyState: room.lobbyState,
   });
 }
 
@@ -162,7 +163,7 @@ io.on('connection', (socket) => {
     broadcastRoomUpdate(room);
   });
 
-  // ---------- 2. 게임 시작 (방장 전용) ----------
+  // ---------- 2. 게임 시작 준비 (방장 전용, 1단계: 참가자 대기) ----------
   socket.on('startGame', () => {
     const room = roomManager.findRoomByPlayer(socket.id);
     if (!room) return;
@@ -173,6 +174,24 @@ io.on('connection', (socket) => {
     }
     if (!room.canStart()) {
       socket.emit('errorMessage', { message: `최소 ${MIN_PLAYERS}명이 모여야 게임을 시작할 수 있습니다.` });
+      return;
+    }
+
+    room.lobbyState = 'game_ready';
+    broadcastRoomUpdate(room);
+  });
+
+  // ---------- 2-2. 카드 나눠갖기 (방장 전용, 2단계: 게임 시작) ----------
+  socket.on('dealCards', () => {
+    const room = roomManager.findRoomByPlayer(socket.id);
+    if (!room) return;
+
+    if (room.hostId !== socket.id) {
+      socket.emit('errorMessage', { message: '방장만 카드를 나눠줄 수 있습니다.' });
+      return;
+    }
+    if (room.lobbyState !== 'game_ready') {
+      socket.emit('errorMessage', { message: '게임이 준비되지 않았습니다.' });
       return;
     }
     if (!room.hasEnoughCardsToStart()) {

@@ -32,15 +32,24 @@
 
   <!-- 화면 2: 대기실 -->
   <section id="screen-lobby" class="screen hidden">
-    <h2>대기실</h2>
+    <div class="screen-header">
+      <h2>대기실</h2>
+      <button id="btn-home-lobby" class="btn-home">🏠 처음으로</button>
+    </div>
     <p>방 코드: <span id="lobby-code" class="room-code"></span></p>
     <ul id="lobby-players" class="player-list"></ul>
     <p id="lobby-hint" class="hint"></p>
-    <button id="btn-start-game" class="hidden btn-primary">카드 나눠갖기</button>
+    <div id="lobby-buttons" class="button-group">
+      <button id="btn-start-game" class="hidden btn-primary">게임 시작</button>
+      <button id="btn-deal-cards" class="hidden btn-primary">카드 나눠갖기</button>
+    </div>
   </section>
 
   <!-- 화면 3: 게임 -->
   <section id="screen-game" class="screen hidden">
+    <div class="screen-header">
+      <button id="btn-home-game" class="btn-home">🏠 처음으로</button>
+    </div>
     <header class="game-header">
       <div id="scoreboard" class="scoreboard"></div>
     </header>
@@ -103,10 +112,12 @@
 
   <!-- 화면 4: 게임 종료 -->
   <section id="screen-gameover" class="screen hidden">
-    <h2>게임 종료</h2>
+    <div class="screen-header">
+      <h2>게임 종료</h2>
+    </div>
     <p id="gameover-reason" class="hint"></p>
     <ol id="final-scores" class="player-list"></ol>
-    <button id="btn-back-to-landing">처음으로</button>
+    <button id="btn-back-to-landing" class="btn-primary">🏠 처음으로</button>
   </section>
 
 </div>
