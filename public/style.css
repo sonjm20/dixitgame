@@ -151,13 +151,22 @@ button:hover:not(:disabled) {
 }
 
 .game-header {
+  margin-bottom: 20px;
+}
+
+.scoreboard-header {
+  font-size: 14px;
+  font-weight: bold;
+  color: #c9b8cf;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   margin-bottom: 12px;
 }
 
 .scoreboard {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
 }
 
 .score-chip {

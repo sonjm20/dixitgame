@@ -220,6 +220,11 @@ function enterVotePhase(cards) {
 
   $('phase-vote').classList.remove('hidden');
   const isPrompter = state.myId === state.prompterId;
+
+  // 투표 단계 제목 설정
+  const prompter = state.players.find((p) => p.id === state.prompterId);
+  const prompterName = prompter ? prompter.nickname : '출제자';
+  $('vote-phase-title').textContent = `어느 카드가 [${prompterName}]님의 카드일까요? 정답을 선택하세요.`;
   $('vote-wait-msg').classList.toggle('hidden', !isPrompter);
   $('vote-progress').textContent = '';
   $('btn-reveal-answer').classList.add('hidden');
