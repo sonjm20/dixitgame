@@ -1,0 +1,7 @@
+node_modules/
+npm-debug.log*
+.DS_Store
+
+# 카드 이미지는 사용자가 로컬에서 별도로 채워 넣는 리소스입니다.
+images/*
+!images/.gitkeep

@@ -1,0 +1,17 @@
+{
+  "name": "dixit-game",
+  "version": "1.0.0",
+  "description": "딕싯(Dixit) 보드게임 온라인 멀티플레이어 웹앱",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
