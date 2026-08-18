@@ -73,6 +73,7 @@ function renderLobby() {
   const canStart = isHost && state.players.length >= 3;
   $('btn-start-game').classList.toggle('hidden', !isHost);
   $('btn-start-game').disabled = !canStart;
+  $('btn-start-game').textContent = '카드 나눠갖기';
 
   if (isHost && state.players.length < 3) {
     $('lobby-hint').textContent = `게임을 시작하려면 최소 3명이 필요합니다. (현재 ${state.players.length}명)`;
@@ -308,10 +309,12 @@ socket.on('roomUpdate', ({ code, hostId, players, state: roomState }) => {
 
 socket.on('gameStarted', () => {
   showScreen('game');
+  renderScoreboard();
 });
 
 socket.on('yourHand', ({ hand }) => {
   state.hand = hand;
+  renderHand('my-hand', false, () => {});
 });
 
 socket.on('cluePhase', ({ prompterId, prompterName }) => {
