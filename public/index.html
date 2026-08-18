@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dixit Online</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- 에러 메시지 토스트 -->
+  <div id="error-toast" class="toast hidden"></div>
+
+  <!-- 화면 1: 랜딩 (방 생성 / 참가) -->
+  <section id="screen-landing" class="screen">
+    <h1>Dixit Online</h1>
+
+    <div class="panel">
+      <h2>방 만들기</h2>
+      <input id="create-nickname" type="text" placeholder="닉네임" maxlength="10" />
+      <button id="btn-create-room">방 만들기</button>
+    </div>
+
+    <div class="panel">
+      <h2>방 참가하기</h2>
+      <input id="join-nickname" type="text" placeholder="닉네임" maxlength="10" />
+      <input id="join-code" type="text" placeholder="방 코드 (4자리)" maxlength="4" inputmode="numeric" />
+      <button id="btn-join-room">참가하기</button>
+    </div>
+  </section>
+
+  <!-- 화면 2: 대기실 -->
+  <section id="screen-lobby" class="screen hidden">
+    <h2>대기실</h2>
+    <p>방 코드: <span id="lobby-code" class="room-code"></span></p>
+    <ul id="lobby-players" class="player-list"></ul>
+    <p id="lobby-hint" class="hint"></p>
+    <button id="btn-start-game" class="hidden">게임 시작</button>
+  </section>
+
+  <!-- 화면 3: 게임 -->
+  <section id="screen-game" class="screen hidden">
+    <header class="game-header">
+      <div id="scoreboard" class="scoreboard"></div>
+    </header>
+
+    <div id="clue-banner" class="clue-banner hidden">
+      제시어: <strong id="clue-text"></strong>
+    </div>
+
+    <!-- 출제자 턴 UI -->
+    <div id="phase-clue" class="phase hidden">
+      <h3 id="clue-phase-title"></h3>
+      <div id="clue-input-area" class="hidden">
+        <p>패에서 카드를 한 장 고르고 제시어를 입력하세요.</p>
+        <input id="clue-input" type="text" placeholder="제시어를 입력하세요" maxlength="50" />
+        <button id="btn-submit-clue" disabled>제시어와 카드 제출</button>
+      </div>
+      <p id="clue-wait-msg" class="hint hidden">출제자가 제시어를 고르는 중입니다...</p>
+    </div>
+
+    <!-- 카드 제출 UI -->
+    <div id="phase-submit" class="phase hidden">
+      <h3>어울리는 카드를 골라 제출하세요</h3>
+      <p id="submit-progress" class="hint"></p>
+      <p id="submit-wait-msg" class="hint hidden">다른 플레이어들이 카드를 제출하는 중입니다...</p>
+    </div>
+
+    <!-- 투표 UI -->
+    <div id="phase-vote" class="phase hidden">
+      <h3>출제자의 진짜 카드에 투표하세요</h3>
+      <p id="vote-progress" class="hint"></p>
+      <p id="vote-wait-msg" class="hint hidden">출제자는 투표할 수 없습니다. 결과를 기다려주세요...</p>
+      <div id="vote-cards" class="card-grid"></div>
+    </div>
+
+    <!-- 결과 공개 UI -->
+    <div id="phase-reveal" class="phase hidden">
+      <h3>라운드 결과</h3>
+      <div id="reveal-cards" class="card-grid"></div>
+      <button id="btn-next-round" class="hidden">다음 라운드</button>
+      <p id="reveal-wait-msg" class="hint hidden">방장이 다음 라운드를 시작하기를 기다리는 중...</p>
+    </div>
+
+    <!-- 내 손패 -->
+    <div id="my-hand-wrap">
+      <h4>내 손패</h4>
+      <div id="my-hand" class="card-grid"></div>
+    </div>
+  </section>
+
+  <!-- 화면 4: 게임 종료 -->
+  <section id="screen-gameover" class="screen hidden">
+    <h2>게임 종료</h2>
+    <p id="gameover-reason" class="hint"></p>
+    <ol id="final-scores" class="player-list"></ol>
+    <button id="btn-back-to-landing">처음으로</button>
+  </section>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
