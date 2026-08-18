@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const IMAGES_DIR = path.join(__dirname, '..', 'images');
+const IMAGES_DIR = path.join(__dirname, '..', 'public', 'images');
 const VALID_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
 
 // images/ 폴더에 있는 카드 이미지 파일 목록을 읽어 정적 서빙 경로(URL) 배열로 반환한다.

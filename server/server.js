@@ -11,7 +11,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 const PUBLIC_DIR = path.join(__dirname, '..', 'public');
-const IMAGES_DIR = path.join(__dirname, '..', 'images');
+const IMAGES_DIR = path.join(__dirname, '..', 'public', 'images');
 
 app.use(express.static(PUBLIC_DIR));
 app.use('/images', express.static(IMAGES_DIR));
